@@ -1,0 +1,8 @@
+# python
+cnn是基于minist数据集的识别神经网络
+DQN是机器强化学习，本例子用来学习立杆子
+gan是生存对抗网络，生成接近光滑曲线的曲线
+num是基于imagfolder建立数据集的卷积神经网络用来识别数据
+num0是用os来生成path，numpy存储数据
+pca是autoencoder，压缩还原
+rnn是循环神经网络

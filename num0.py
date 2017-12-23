@@ -10,10 +10,10 @@ import torchvision
 from torchvision import transforms, utils
 import matplotlib.pyplot as plt
 
-torch.manual_seed(1)    # reproducible
+# torch.manual_seed(1)    # reproducible
 
 # Hyper Parameters
-EPOCH = 3            # train the training data n times, to save time, we just train 1 epoch
+EPOCH = 10            # train the training data n time
 BATCH_SIZE = 2
 LR = 0.001              # learning rate
 
@@ -22,15 +22,15 @@ LR = 0.001              # learning rate
 #mydataset
 train_data = torchvision.datasets.ImageFolder(
         'digital_number/train',
-        transform=torchvision.transforms.ToTensor(),                                        #transform=transforms.Compose(transforms.ToTensor(),)
+        transform=torchvision.transforms.ToTensor(),                                        
+        #transform=transforms.Compose(transforms.ToTensor(),)
 )
 
 
 
-# Data Loader for easy mini-batch return in training, the image batch shape will be (50, 1, 28, 28)
+# Data Loader for easy mini-batch return in training, the image batch shape will be (2, 3, 28, 28)
 train_loader = Data.DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=True)
 
-# convert test data into Variable, pick 2000 samples to speed up testing
 
 def get_files(directory):
     return [os.path.join(directory, f) for f in sorted(list(os.listdir(directory)))
@@ -48,21 +48,21 @@ test_x = torch.from_numpy(images).float()
 print(test_x.size())
 test_x = Variable(test_x)
 test_y = np.array([4,3,0,0,7,1])
-#test_y = np.array([4,3,7,8,1,6])
+# test_y = np.array([4,3,7,8,1,6])
 test_y = torch.from_numpy(test_y)
 
 
 class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
-        self.conv1 = nn.Sequential(         # input shape (1, 28, 28)
+        self.conv1 = nn.Sequential(         # input shape(3,28,28)
             nn.Conv2d(
-                in_channels=3,              # input height
+                in_channels=3,              # input height 3
                 out_channels=16,            # n_filters
                 kernel_size=5,              # filter size
                 stride=1,                   # filter movement/step
                 padding=2,                  # if want same width and length of this image after con2d, padding=(kernel_size-1)/2 if stride=1
-            ),                              # output shape (16, 28, 28)
+            ),                              # output shape
             nn.ReLU(),                      # activation
             nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (16, 14, 14)
         )
@@ -104,9 +104,11 @@ for epoch in range(EPOCH):
     for step, (x, y) in enumerate(train_loader):   # gives batch data, normalize x when iterate train_loader
         b_x = Variable(x)   # batch x
         b_y = Variable(y)   # batch y
-        
-        output = cnn(b_x)[0]               # cnn output
+        # print(b_y.data)
+        output = cnn(b_x)[0]
+        # print (output.data)              # cnn output
         loss = loss_func(output, b_y)   # cross entropy loss
+
         optimizer.zero_grad()           # clear gradients for this training step
         loss.backward()                 # backpropagation, compute gradients
         optimizer.step()                # apply gradients

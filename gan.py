@@ -64,7 +64,8 @@ for step in range(10000):
     opt_G.zero_grad()
     G_loss.backward()
     opt_G.step()
-    
+    #deal with _BackendMac problem
+    plt.interactive(False)
     if step % 50 == 0:  # plotting
         plt.cla()
         plt.plot(PAINT_POINTS[0], G_paintings.data.numpy()[0], c='#4AD631', lw=3, label='Generated painting',)

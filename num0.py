@@ -70,7 +70,7 @@ class CNN(nn.Module):
             nn.Conv2d(16, 32, 5, 1, 2),     # output shape (32, 14, 14)
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (32, 7, 7)
-                                                              )
+        )
         self.out = nn.Linear(32 * 7 * 7, 10)   # fully connected layer, output 10 classes
     
     def forward(self, x):
@@ -129,6 +129,8 @@ for epoch in range(EPOCH):
 # plt.show()
 # testing
 test_output, _ = cnn(test_x)
+print test_output
+print torch.max(test_output, 1)
 pred_y = torch.max(test_output, 1)[1].data.numpy().squeeze()
 print(pred_y, 'prediction number')
 print(test_y.numpy(), 'real number')

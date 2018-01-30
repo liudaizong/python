@@ -48,8 +48,8 @@ G = nn.Sequential(
     nn.Tanh())
 
 criterion = nn.BCELoss()
-D_optimizer = torch.optim.Adam(D.parameters(), lr=0.001)
-G_optimizer = torch.optim.Adam(G.parameters(), lr=0.001)
+D_optimizer = torch.optim.Adam(D.parameters(), lr=0.001, betas = (0.5, 0.999))
+G_optimizer = torch.optim.Adam(G.parameters(), lr=0.001, betas = (0.5, 0.999))
 
 # initialize figure
 f, a = plt.subplots(2, N_TEST_IMG, figsize=(5, 2))
@@ -93,7 +93,7 @@ for epoch in range(EPOCH):
 
         #=============== Train the generator ===============#
         # Compute loss with fake images
-        z = Variable(torch.randn(BATCH_SIZE, 64))
+        z = Variable(torch.randn(BATCH_SIZE, 64).normal_(0,1))
         fake_images = G(z)
         outputs = D(fake_images)
         

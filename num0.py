@@ -36,7 +36,7 @@ def get_files(directory):
     return [os.path.join(directory, f) for f in sorted(list(os.listdir(directory)))
             if os.path.isfile(os.path.join(directory, f))]
 images = np.array([])
-file = get_files('number/test2')
+file = get_files('number/test1')
 for i, item in enumerate(file):
     print('Processing %i of %i (%s)' % (i+1, len(file), item))
     transform=torchvision.transforms.ToTensor()
@@ -47,8 +47,8 @@ images = images.reshape(-1, 3, 28, 28)
 test_x = torch.from_numpy(images).float()
 print(test_x.size())
 test_x = Variable(test_x)
-test_y = np.array([4,3,0,0,7,1])
-# test_y = np.array([4,3,7,8,1,6])
+# test_y = np.array([4,3,0,0,7,1])
+test_y = np.array([4,3,7,8,1,6])
 test_y = torch.from_numpy(test_y)
 
 
@@ -129,8 +129,8 @@ for epoch in range(EPOCH):
 # plt.show()
 # testing
 test_output, _ = cnn(test_x)
-print test_output
-print torch.max(test_output, 1)
+# print test_output
+# print torch.max(test_output, 1)
 pred_y = torch.max(test_output, 1)[1].data.numpy().squeeze()
 print(pred_y, 'prediction number')
 print(test_y.numpy(), 'real number')
